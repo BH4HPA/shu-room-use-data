@@ -1,0 +1,24 @@
+{
+  "name": "shu-room-use-data",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "dev": "nodemon --config nodemon.json src/index.ts",
+    "start": "tsc && node dist/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18",
+    "@types/prompts": "^2.4.9",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "chalk": "^4",
+    "cos-nodejs-sdk-v5": "^2.14.6",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.7",
+    "tencentcloud-sdk-nodejs": "^4.0.975",
+    "ts-node": "^10.9.2"
+  }
+}
