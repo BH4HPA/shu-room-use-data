@@ -76,7 +76,7 @@ client('/yjsrzfwapp/shuIndex.do?type=jsjyrqcxsy', {
         status = (status << 1) | parseInt(classroom[`J${i}`]);
       return {
         building: classroom.JXLDM_DISPLAY,
-        campus: classroom.XXXQDM_DISPLAY,
+        campus: `${classroom.XXXQDM_DISPLAY}校区`,
         classroom: classroom.JASMC,
         status,
         size: parseInt(classroom.SKZWS),
