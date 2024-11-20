@@ -1,0 +1,57 @@
+name: Interval Crawler Task
+
+on:
+  schedule:
+    - cron: '0 17 * * *'
+    - cron: '0 0 * * *'
+  push:
+    branches:
+      - new-backend
+  workflow_dispatch:
+
+concurrency:
+  group: interval-crawler
+  cancel-in-progress: true
+
+jobs:
+  crawl-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 18.x
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install OpenVPN Client
+        run: |
+          sudo apt-get update && sudo apt-get -y install openvpn
+
+      - name: Connect to OpenVPN
+        run: |
+          echo "${{ secrets.SHU_USERNAME }}" > /tmp/ovpn-auth.txt
+          echo "${{ secrets.SHU_PASSWORD }}" >> /tmp/ovpn-auth.txt
+          sudo openvpn --config ./ci/shu-student.ovpn --auth-user-pass /tmp/ovpn-auth.txt --daemon
+
+      - name: Wait for OpenVPN connection
+        timeout-minutes: 2
+        run: |
+          until ping -c1 jw.shu.edu.cn; do sleep 2; done
+
+      - name: Run Crawler
+        env:
+          QC_BUCKET: ${{ secrets.QC_BUCKET }}
+          QC_REGION: ${{ secrets.QC_REGION }}
+          QC_SECRET_ID: ${{ secrets.QC_SECRET_ID }}
+          QC_SECRET_KEY: ${{ secrets.QC_SECRET_KEY }}
+        run: yarn start
+
+      - name: Shutdown OpenVPN
+        run: |
+          sudo killall openvpn
