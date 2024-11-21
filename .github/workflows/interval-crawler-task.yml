@@ -2,8 +2,7 @@ name: Interval Crawler Task
 
 on:
   schedule:
-    - cron: '0 17 * * *'
-    - cron: '0 0 * * *'
+    - cron: '0 16-18 * * *'
   push:
     branches:
       - new-backend
@@ -25,6 +24,15 @@ jobs:
         with:
           node-version: 18.x
           cache: 'yarn'
+
+      - name: Set timezone to Asia/Shanghai
+        run: |
+          sudo ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+          echo "Asia/Shanghai" | sudo tee /etc/timezone
+          sudo dpkg-reconfigure -f noninteractive tzdata
+
+      - name: Print current time
+        run: date
 
       - name: Install dependencies
         run: yarn install
