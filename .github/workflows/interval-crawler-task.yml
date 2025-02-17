@@ -23,8 +23,8 @@ jobs:
         uses: actions/setup-node@v4.0.2
         with:
           node-version: 18.x
-          cache: 'yarn'
-
+      - name: Switch to Yarn 2
+        run: corepack enable
       - name: Set timezone to Asia/Shanghai
         run: |
           sudo ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime

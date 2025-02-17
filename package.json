@@ -20,5 +20,6 @@
     "nodemon": "^3.1.7",
     "tencentcloud-sdk-nodejs": "^4.0.975",
     "ts-node": "^10.9.2"
-  }
+  },
+  "packageManager": "yarn@4.6.0"
 }
