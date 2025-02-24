@@ -47,14 +47,6 @@ jobs:
           echo "${{ secrets.SHU_PASSWORD }}" >> /tmp/ovpn-auth.txt
           sudo openvpn --config ./ci/shu-student.ovpn --auth-user-pass /tmp/ovpn-auth.txt --daemon
 
-      - name: Show net router list after connected
-        run: |
-          sleep 10
-          ifconfig
-          netstat -rn
-          sudo route add 10.106.0.245/32 dev tun0
-          netstat -rn
-
       - name: Wait for OpenVPN connection
         timeout-minutes: 2
         run: |
