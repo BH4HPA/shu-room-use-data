@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   crawl-and-push:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
           sleep 10
           ifconfig
           netstat -rn
-          route add 10.106.0.245/32 dev tun0
+          sudo route add 10.106.0.245/32 dev tun0
           netstat -rn
 
       - name: Wait for OpenVPN connection
